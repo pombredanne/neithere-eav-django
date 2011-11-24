@@ -31,6 +31,7 @@ from django.utils.safestring import mark_safe
 
 
 class BaseEntityAdmin(ModelAdmin):
+    eav_fieldsets = None
 
     def render_change_form(self, request, context, **kwargs):
         """
@@ -43,8 +44,12 @@ class BaseEntityAdmin(ModelAdmin):
         """
         form = context['adminform'].form
 
-        # infer correct data from the form
-        fieldsets = [(None, {'fields': form.fields.keys()})]
+        if self.eav_fieldsets:
+          fieldsets = self.eav_fieldsets
+        # or infer correct data from the form
+        else:
+          fieldsets = [(None, {'fields': form.fields.keys()})]
+
         adminform = helpers.AdminForm(form, fieldsets,
                                       self.prepopulated_fields)
         media = mark_safe(self.media + adminform.media)
