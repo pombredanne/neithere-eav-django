@@ -67,7 +67,7 @@ class BaseSchema(Model):
         (TYPE_RANGE,   _('numeric range')),
     )
 
-    title    = CharField(_('title'), max_length=100, help_text=_('user-friendly attribute name'))
+    title    = CharField(_('title'), max_length=250, help_text=_('user-friendly attribute name'))
     name     = AutoSlugField(_('name'), populate_from='title',
                              editable=True, blank=True, slugify=slugify_attr_name)
     help_text = CharField(_('help text'), max_length=250, blank=True,
