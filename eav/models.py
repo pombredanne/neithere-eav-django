@@ -164,6 +164,10 @@ class BaseSchema(Model):
         Creates or updates BaseChoice(s) attribute(s) for given entity.
         """
 
+        # value can be None to reset choices from schema
+        if value == None:
+            value = []
+
         if not hasattr(value, '__iter__'):
             value = [value]
 

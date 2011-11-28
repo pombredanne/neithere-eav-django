@@ -154,7 +154,7 @@ ValueError: Range must consist of min and max values (min <= max) but got "3" an
 >>> e2.save()
 Traceback (most recent call last):
     ...
-TypeError: Cannot assign [\'wrong choice\']: "Attr.choice" must be a BaseChoice instance.
+TypeError: Cannot assign "[\'wrong choice\']": "Attr.choice" must be a BaseChoice instance.
 >>> e2.size = [small, large]
 >>> e2.save()
 >>> e3 = Entity.objects.get(pk=e.pk)
@@ -177,7 +177,7 @@ TypeError: Cannot assign [\'wrong choice\']: "Attr.choice" must be a BaseChoice 
 >>> egg_albumen
 <Choice: Egg Albumen>
 >>> gluten.schema
-<Schema: Protein (choices)>
+<Schema: Protein (choice)>
 >>> e = Entity(title='Cane')
 >>> e.protein = egg_albumen
 >>> e.save()
@@ -188,7 +188,7 @@ TypeError: Cannot assign [\'wrong choice\']: "Attr.choice" must be a BaseChoice 
 >>> e2.save()
 Traceback (most recent call last):
     ...
-TypeError: Cannot assign multiple values [Choice: Gluten>, <Choice: Lean Meat>] to TYPE_ONE: must be only one BaseChoice instance.
+TypeError: Cannot assign multiple values "[<Choice: Gluten>, <Choice: Lean Meat>]" to TYPE_ONE must be only one BaseChoice instance.
 >>> e3 = Entity.objects.get(pk=e.pk)
 >>> e3.protein
 <Choice: Egg Albumen>
@@ -196,7 +196,7 @@ TypeError: Cannot assign multiple values [Choice: Gluten>, <Choice: Lean Meat>] 
 >>> e2.save()
 Traceback (most recent call last):
     ...
-TypeError: Cannot assign [\'wrong choice\']: "Attr.choice" must be a BaseChoice instance.
+TypeError: Cannot assign "[\'wrong choice\']": "Attr.choice" must be a BaseChoice instance.
 
 ##
 ## combined
@@ -219,9 +219,9 @@ TypeError: Cannot assign [\'wrong choice\']: "Attr.choice" must be a BaseChoice 
 # or don't have any attributes for this schema at all:
 #
 >>> Entity.objects.exclude(size=small)
-[<Entity: Apple>, <Entity: Orange>, <Entity: Old Dog>]
+[<Entity: Apple>, <Entity: Cane>, <Entity: Orange>, <Entity: Old Dog>]
 >>> Entity.objects.exclude(taste='sweet')
-[<Entity: T-shirt>, <Entity: Old Dog>]
+[<Entity: T-shirt>, <Entity: Cane>, <Entity: Old Dog>]
 >>> Entity.objects.filter(size=large) & Entity.objects.exclude(colour='orange')
 [<Entity: T-shirt>]
 >>> Entity.objects.filter(size=large) & Entity.objects.filter(colour='orange')
@@ -242,7 +242,7 @@ TypeError: Cannot assign [\'wrong choice\']: "Attr.choice" must be a BaseChoice 
 >>> fs.facets
 [<TextFacet: Item price>, <TextFacet: Colour>, <ManyToManyFacet: Size>, <TextFacet: Taste>]
 >>> [x for x in fs]
-[<Entity: Apple>, <Entity: T-shirt>, <Entity: Orange>, <Entity: Tangerine>, <Entity: Old Dog>]
+[<Entity: Apple>, <Entity: T-shirt>, <Entity: Cane>, <Entity: Orange>, <Entity: Tangerine>, <Entity: Old Dog>]
 >>> [x for x in FacetSet({'colour': 'yellow'})]
 [<Entity: Apple>]
 >>> [x for x in FacetSet({'colour': 'orange'})]
