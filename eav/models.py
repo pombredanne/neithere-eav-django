@@ -55,6 +55,7 @@ class BaseSchema(Model):
     TYPE_FLOAT   = 'float'
     TYPE_DATE    = 'date'
     TYPE_BOOLEAN = 'bool'
+    TYPE_ONE     = 'one'
     TYPE_MANY    = 'many'
     TYPE_RANGE   = 'range'
 
@@ -63,6 +64,7 @@ class BaseSchema(Model):
         (TYPE_FLOAT,   _('number')),
         (TYPE_DATE,    _('date')),
         (TYPE_BOOLEAN, _('boolean')),
+        (TYPE_ONE,     _('choice')),
         (TYPE_MANY,    _('multiple choices')),
         (TYPE_RANGE,   _('numeric range')),
     )
@@ -112,12 +114,13 @@ class BaseSchema(Model):
         """
         Saves given EAV attribute with given value for given entity.
 
-        If schema is not many-to-one, the value is saved to the corresponding
+        If schema is not a choice, the value is saved to the corresponding
         Attr instance (which is created or updated).
 
-        If schema is many-to-one, the value is processed thusly:
+        If schema is an cvhoice (one-to-one or many-to-one), the value is
+        processed thusly:
 
-        * if value is iterable, all Attr instances for corresponding managed m2m
+        * if value is iterable, all Attr instances for corresponding managed choice
           schemata are updated (those with names from the value list are set to
           True, others to False). If a list item is not in available choices,
           ValueError is raised;
@@ -126,8 +129,8 @@ class BaseSchema(Model):
           processed as above (i.e. "foo" --> ["foo"]).
         """
 
-        if self.datatype == self.TYPE_MANY:
-            self._save_m2m_attr(entity, value)
+        if self.datatype in (self.TYPE_ONE, self.TYPE_MANY):
+            self._save_choice_attr(entity, value)
         else:
             self._save_single_attr(entity, value)
 
@@ -156,20 +159,28 @@ class BaseSchema(Model):
                 setattr(attr, k, v)
             attr.save()
 
-    def _save_m2m_attr(self, entity, value):
+    def _save_choice_attr(self, entity, value):
+        """
+        Creates or updates BaseChoice(s) attribute(s) for given entity.
+        """
 
         if not hasattr(value, '__iter__'):
             value = [value]
 
+        if self.datatype == self.TYPE_ONE and len(value) > 1:
+            raise TypeError('Cannot assign multiple values "%s" to TYPE_ONE '
+                            'must be only one BaseChoice instance.'
+                            % value)
+
         if not all(isinstance(x, BaseChoice) for x in value):
             raise TypeError('Cannot assign "%s": "Attr.choice" '
                             'must be a BaseChoice instance.'
-                            % ', '.join(value))
+                            % value)
 
         # drop all attributes for this entity/schema pair
         self.get_attrs(entity).delete()
 
-        # Attr instances for corresponding managed m2m schemata are updated
+        # Attr instances for corresponding managed choice schemata are updated
         for choice in value:
             self._save_single_attr(
                 entity,
@@ -327,7 +338,7 @@ class BaseAttribute(Model):
         return u'%s: %s "%s"' % (self.entity, self.schema.title, self.value)
 
     def _get_value(self):
-        if self.schema.datatype == self.schema.TYPE_MANY:
+        if self.schema.datatype in (self.schema.TYPE_ONE, self.schema.TYPE_MANY):
             return self.choice
         if self.schema.datatype == self.schema.TYPE_RANGE:
             names = ('value_range_%s' % x for x in ('min', 'max'))

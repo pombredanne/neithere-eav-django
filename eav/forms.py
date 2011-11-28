@@ -23,9 +23,9 @@ from copy import deepcopy
 
 # django
 from django.forms import (BooleanField, CharField, CheckboxSelectMultiple,
-                          DateField, FloatField, ModelForm, ModelMultipleChoiceField,    #MultipleChoiceField,
-                          ValidationError)
-from django.contrib.admin.widgets import AdminDateWidget, FilteredSelectMultiple    #, RelatedFieldWidgetWrapper
+                          DateField, FloatField, ModelForm, ModelChoiceField,
+                          ModelMultipleChoiceField, ValidationError)
+from django.contrib.admin.widgets import AdminDateWidget, FilteredSelectMultiple, AdminRadioSelect    #, RelatedFieldWidgetWrapper
 from django.utils.translation import ugettext_lazy as _
 
 # this app
@@ -62,11 +62,15 @@ class BaseDynamicEntityForm(ModelForm):
         'float': FloatField,
         'date': DateField,
         'bool': BooleanField,
+        'one': ModelChoiceField,
         'many': ModelMultipleChoiceField,    #RelatedFieldWidgetWrapper(MultipleChoiceField),
         'range': RangeField,
     }
     FIELD_EXTRA = {
         'date': {'widget': AdminDateWidget},
+        'one': lambda schema: {
+            'widget': AdminRadioSelect
+        },
         'many': lambda schema: {
             'widget': CheckboxSelectMultiple
                       if len(schema.get_choices()) <= 5 else
@@ -105,6 +109,12 @@ class BaseDynamicEntityForm(ModelForm):
                 choices = getattr(self.instance, schema.name)
                 defaults.update({'queryset': schema.get_choices(),
                                  'initial': [x.pk for x in choices]})
+            elif datatype == schema.TYPE_ONE:
+                choice = getattr(self.instance, schema.name)
+                defaults.update({'queryset': schema.get_choices(),
+                                 'initial': choice.pk if choice else None,
+                                 # if schema is required remove --------- from ui
+                                 'empty_label' : None if schema.required else u"---------"})
 
             extra = self.FIELD_EXTRA.get(datatype, {})
             if hasattr(extra, '__call__'):
@@ -116,7 +126,7 @@ class BaseDynamicEntityForm(ModelForm):
 
             # fill initial data (if attribute was already defined)
             value = getattr(self.instance, schema.name)
-            if value and not datatype == schema.TYPE_MANY:    # m2m is already done above
+            if value and not datatype in (schema.TYPE_ONE, schema.TYPE_MANY):    # choices are already done above
                 self.initial[schema.name] = value
 
     def save(self, commit=True):

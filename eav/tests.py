@@ -154,7 +154,7 @@ ValueError: Range must consist of min and max values (min <= max) but got "3" an
 >>> e2.save()
 Traceback (most recent call last):
     ...
-TypeError: Cannot assign "wrong choice": "Attr.choice" must be a BaseChoice instance.
+TypeError: Cannot assign [\'wrong choice\']: "Attr.choice" must be a BaseChoice instance.
 >>> e2.size = [small, large]
 >>> e2.save()
 >>> e3 = Entity.objects.get(pk=e.pk)
@@ -165,6 +165,38 @@ TypeError: Cannot assign "wrong choice": "Attr.choice" must be a BaseChoice inst
  <Attr: T-shirt: Size "L">, <Attr: Apple: Taste "sweet">,\
  <Attr: Apple: Weight range "(1.0, 3.0)">\
 ]
+
+##
+## one-to-one
+##
+
+>>> protein = Schema.objects.create(name='protein', title='Protein', datatype=Schema.TYPE_ONE)
+>>> egg_albumen = protein.choices.create(title='Egg Albumen')
+>>> gluten = protein.choices.create(title='Gluten')
+>>> lean_meat = protein.choices.create(title='Lean Meat')
+>>> egg_albumen
+<Choice: Egg Albumen>
+>>> gluten.schema
+<Schema: Protein (choices)>
+>>> e = Entity(title='Cane')
+>>> e.protein = egg_albumen
+>>> e.save()
+>>> e2 = Entity.objects.get(pk=e.pk)
+>>> e2.protein
+<Choice: Egg Albumen>
+>>> e2.protein = [gluten, lean_meat]
+>>> e2.save()
+Traceback (most recent call last):
+    ...
+TypeError: Cannot assign multiple values [Choice: Gluten>, <Choice: Lean Meat>] to TYPE_ONE: must be only one BaseChoice instance.
+>>> e3 = Entity.objects.get(pk=e.pk)
+>>> e3.protein
+<Choice: Egg Albumen>
+>>> e2.protein = ['wrong choice']
+>>> e2.save()
+Traceback (most recent call last):
+    ...
+TypeError: Cannot assign [\'wrong choice\']: "Attr.choice" must be a BaseChoice instance.
 
 ##
 ## combined

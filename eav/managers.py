@@ -91,8 +91,8 @@ class BaseEntityManager(Manager):
                 if subname in related_schemata:
                     # EAV attribute (Attr instance linked to entity)
                     schema = related_schemata.get(subname)
-                    if schema.datatype == schema.TYPE_MANY:
-                        d = self._filter_by_m2m_schema(qs, subname, subsublookup, value, schema, model=related_model)
+                    if schema.datatype in (schema.TYPE_ONE, schema.TYPE_MANY):
+                        d = self._filter_by_choice_schema(qs, subname, subsublookup, value, schema, model=related_model)
                     elif schema.datatype == schema.TYPE_RANGE:
                         d = self._filter_by_range_schema(qs, subname, subsublookup, value, schema)
                     else:
@@ -106,8 +106,8 @@ class BaseEntityManager(Manager):
         elif name in schemata:
             # EAV attribute (Attr instance linked to entity)
             schema = schemata.get(name)
-            if schema.datatype == schema.TYPE_MANY:
-                return self._filter_by_m2m_schema(qs, name, sublookup, value, schema)
+            if schema.datatype in (schema.TYPE_ONE, schema.TYPE_MANY):
+                return self._filter_by_choice_schema(qs, name, sublookup, value, schema)
             elif schema.datatype == schema.TYPE_RANGE:
                 return self._filter_by_range_schema(qs, name, sublookup, value, schema)
             else:
@@ -170,10 +170,10 @@ class BaseEntityManager(Manager):
         })
         return conditions
 
-    def _filter_by_m2m_schema(self, qs, lookup, sublookup, value, schema, model=None):
+    def _filter_by_choice_schema(self, qs, lookup, sublookup, value, schema, model=None):
         """
         Filters given entity queryset by an attribute which is linked to given
-        many-to-many schema.
+        choice schema.
         """
         model = model or self.model
         schemata = dict((s.name, s) for s in model.get_schemata_for_model())   # TODO cache this dict, see above too
@@ -227,7 +227,7 @@ class BaseEntityManager(Manager):
 '''
 class BaseSchemaManager(Manager):
 
-    def for_form(self, *args, **kw):
+    def )for_form(self, *args, **kw):
         return self.filter(choices=None, *args, **kw)
 
     def for_lookups(self, *args, **kw):
