@@ -144,10 +144,12 @@ class BaseDynamicEntityForm(ModelForm):
         # create entity instance, don't save yet
         instance = super(BaseDynamicEntityForm, self).save(commit=False)
 
-        # assign attributes
-        for name in instance.get_schema_names():
-            value = self.cleaned_data.get(name)
-            setattr(instance, name, value)
+        # assign attributes if it came from eav
+        schema_names = instance.get_schema_names()
+        for name in self.fields.keys():
+            if name in schema_names:
+                value = self.cleaned_data.get(name)
+                setattr(instance, name, value)
 
         # save entity and its attributes
         if commit:
