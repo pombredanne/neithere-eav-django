@@ -90,16 +90,9 @@ class BaseSchema(Model):
         return u'%s (%s)%s' % (self.title, self.get_datatype_display(),
                                 u' %s'%_('required') if self.required else '')
 
-    def get_choices(self, entity=None):
+    def get_choices(self):
         """
-        Returns a list of name/title tuples::
-
-            schema.get_choices()    # --> [("green", "Green color"), ("red", "Red color")]
-
-        Names are used for lookups, titles are displayed to user.
-
-        This method must be overloaded by subclasses of BaseSchema to enable
-        many-to-one schemata machinery.
+        Returns a queryset of choice objects bound to this schema.
         """
         return self.choices.all()
 
