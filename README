@@ -173,6 +173,16 @@ For now please see:
 * the bundled example ("grocery shop", comes with fixtures);
 * the `discussion group <http://groups.google.com/group/eav-django/>`_.
 
+Dependencies
+------------
+
+In theory, Python 2.5 to 2.7 is supported; however, the library is only tested
+against **Python 2.6 and 2.7**.
+
+You'll also need **Django 1.1 or newer** and a couple of small libraries:
+django_autoslug and django_view_shortcuts. This is usually handled
+automatically by the installer.
+
 Author
 ------
 
