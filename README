@@ -183,6 +183,16 @@ You'll also need **Django 1.1 or newer** and a couple of small libraries:
 django_autoslug and django_view_shortcuts. This is usually handled
 automatically by the installer.
 
+Alternatives, Forks
+-------------------
+
+django-eav_
+    A fork of eav-django that became a new app. Doesn't seem to be actively
+    developed but is probably better in certain aspects. The original author
+    of eav-django encourages users to give this app a try, too.
+
+.. _django-eav: http://mvpdev.github.com/django-eav/
+
 Author
 ------
 
