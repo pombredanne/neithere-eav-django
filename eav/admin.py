@@ -28,6 +28,7 @@ from django.contrib.admin.options import (
 )
 from django.forms.models import BaseInlineFormSet
 from django.utils.safestring import mark_safe
+from django.utils.translation import ugettext_lazy as _
 
 
 class BaseEntityAdmin(ModelAdmin):
@@ -44,11 +45,16 @@ class BaseEntityAdmin(ModelAdmin):
         """
         form = context['adminform'].form
 
+        all_fields = form.fields.keys()
+        model_fields = form.base_fields.keys()
+        eav_fields = filter(lambda x: x not in model_fields, all_fields)
+        
         if self.eav_fieldsets:
-          fieldsets = self.eav_fieldsets
+            fieldsets_eav = self.eav_fieldsets + ((_('Attributes'), {'classes': ('collapse',), 'fields': tuple(eav_fields)}),)
+            fieldsets = fieldsets_eav
         # or infer correct data from the form
         else:
-          fieldsets = [(None, {'fields': form.fields.keys()})]
+          fieldsets = [(None, {'fields': all_fields})]
 
         adminform = helpers.AdminForm(form, fieldsets,
                                       self.prepopulated_fields)
