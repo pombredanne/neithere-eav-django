@@ -5,8 +5,12 @@ from django.core.management import call_command
 
 
 settings.configure(
-    INSTALLED_APPS=('django.contrib.contenttypes', 'eav'),
-    DATABASE_ENGINE='sqlite3',
+    INSTALLED_APPS = ('django.contrib.contenttypes', 'eav'),
+    DATABASES = dict(
+        default = dict(
+            ENGINE = 'django.db.backends.sqlite3',
+        )
+    ),
 )
 
 if __name__ == "__main__":
