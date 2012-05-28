@@ -44,6 +44,7 @@ class BaseEntityAdmin(ModelAdmin):
         substitute some data.
         """
         form = context['adminform'].form
+        formset = context['inline_admin_formsets']
 
         all_fields = form.fields.keys()
         model_fields = form.base_fields.keys()
@@ -58,7 +59,13 @@ class BaseEntityAdmin(ModelAdmin):
 
         adminform = helpers.AdminForm(form, fieldsets,
                                       self.prepopulated_fields)
-        media = mark_safe(self.media + adminform.media)
+        
+        if len(formset) > 0:
+            inline_media = context['inline_admin_formsets'][0].media
+        else:
+            inline_media = []
+        
+        media = mark_safe(self.media + adminform.media + inline_media)
 
         context.update(adminform=adminform, media=media)
 
