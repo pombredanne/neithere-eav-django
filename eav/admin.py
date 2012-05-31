@@ -18,7 +18,8 @@
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with EAV-Django.  If not, see <http://gnu.org/licenses/>.
 
-__all__ = ['BaseEntityAdmin', 'BaseSchemaAdmin', 'BaseEntityStackedInline']
+__all__ = ['BaseEntityAdmin', 'BaseSchemaAdmin', 'BaseEntityInline',
+           'StackedInline']
 
 
 # django
@@ -53,22 +54,14 @@ class BaseEntityAdmin(ModelAdmin):
         if self.eav_fieldsets:
             fieldsets_eav = self.eav_fieldsets + ((_('Attributes'), {'classes': ('collapse',), 'fields': tuple(eav_fields)}),)
             fieldsets = fieldsets_eav
-        # or infer correct data from the form
         else:
-          fieldsets = [(None, {'fields': all_fields})]
+            # or infer correct data from the form
+            fieldsets = [(None, {'fields': all_fields})]
 
         adminform = helpers.AdminForm(form, fieldsets,
                                       self.prepopulated_fields)
-        inline_media = []
-        if len(formset) > 0:
-            inline_media = formset[0].media
-            for formset_item in formset:
-                inline_media += formset_item.media
-        else:
-            inline_media = []
-
+        inline_media = [f.media for f in formset]
         media = mark_safe(self.media + adminform.media + inline_media)
-
         context.update(adminform=adminform, media=media)
 
         super_meth = super(BaseEntityAdmin, self).render_change_form
