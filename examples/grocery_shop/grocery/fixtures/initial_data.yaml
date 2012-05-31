@@ -7,7 +7,7 @@
 - fields: {app_label: grocery, model: choice, name: choice}
   model: contenttypes.contenttype
   pk: 11 
-- fields: {app_label: grocery, model: attr, name: attribute}
+- fields: {app_label: grocery, model: attribute, name: attribute}
   model: contenttypes.contenttype
   pk: 12
 - fields: {datatype: float, filtered: true, help_text: '', name: price, required: false,
@@ -48,30 +48,30 @@
   pk: 2
 - fields: {choice: null, entity_id: 1, entity_type: 9, schema: 3, value_bool: null,
     value_date: null, value_float: 10.5, value_text: null}
-  model: grocery.attr
+  model: grocery.attribute
   pk: 1
 - fields: {choice: null, entity_id: 1, entity_type: 9, schema: 2, value_bool: null,
     value_date: null, value_float: null, value_text: Apple}
-  model: grocery.attr
+  model: grocery.attribute
   pk: 2
 - fields: {choice: 1, entity_id: 1, entity_type: 9, schema: 1, value_bool: null, value_date: null,
     value_float: null, value_text: null}
-  model: grocery.attr
+  model: grocery.attribute
   pk: 3
 - fields: {choice: null, entity_id: 2, entity_type: 9, schema: 3, value_bool: null,
     value_date: null, value_float: 9.9900000000000002, value_text: null}
-  model: grocery.attr
+  model: grocery.attribute
   pk: 4
 - fields: {choice: null, entity_id: 2, entity_type: 9, schema: 2, value_bool: null,
     value_date: null, value_float: null, value_text: Apple}
-  model: grocery.attr
+  model: grocery.attribute
   pk: 5
 - fields: {choice: 1, entity_id: 2, entity_type: 9, schema: 1, value_bool: null, value_date: null,
     value_float: null, value_text: null}
-  model: grocery.attr
+  model: grocery.attribute
   pk: 6
 - fields: {choice: 2, entity_id: 2, entity_type: 9, schema: 1, value_bool: null, value_date: null,
     value_float: null, value_text: null}
-  model: grocery.attr
+  model: grocery.attribute
   pk: 7
 
