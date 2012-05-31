@@ -49,7 +49,7 @@ class BaseEntityAdmin(ModelAdmin):
         all_fields = form.fields.keys()
         model_fields = form.base_fields.keys()
         eav_fields = filter(lambda x: x not in model_fields, all_fields)
-        
+
         if self.eav_fieldsets:
             fieldsets_eav = self.eav_fieldsets + ((_('Attributes'), {'classes': ('collapse',), 'fields': tuple(eav_fields)}),)
             fieldsets = fieldsets_eav
@@ -59,12 +59,14 @@ class BaseEntityAdmin(ModelAdmin):
 
         adminform = helpers.AdminForm(form, fieldsets,
                                       self.prepopulated_fields)
-        
+        inline_media = []
         if len(formset) > 0:
-            inline_media = context['inline_admin_formsets'][0].media
+            inline_media = formset[0].media
+            for formset_item in formset:
+                inline_media += formset_item.media
         else:
             inline_media = []
-        
+
         media = mark_safe(self.media + adminform.media + inline_media)
 
         context.update(adminform=adminform, media=media)
