@@ -17,6 +17,10 @@
 #
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with EAV-Django.  If not, see <http://gnu.org/licenses/>.
+"""
+Admin
+~~~~~
+"""
 
 __all__ = ['BaseEntityAdmin', 'BaseSchemaAdmin', 'BaseEntityInline',
            'StackedInline']

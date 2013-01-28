@@ -17,6 +17,10 @@
 #
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with EAV-Django.  If not, see <http://gnu.org/licenses/>.
+"""
+Facets
+~~~~~~
+"""
 
 # TODO: Revamp the whole stuff to add metaclass-based API.
 #       The thing works well as it is but the client code could be more readable.
@@ -35,6 +39,11 @@ from view_shortcuts.decorators import cached_property
 
 # this app
 from fields import RangeField
+
+
+__all__ = ('Facet', 'TextFacet', 'MultiTextFacet', 'ManyToManyFacet',
+           'OneToManyFacet', 'IntegerFacet', 'RangeFacet', 'MultiRangeFacet',
+           'DateFacet', 'BooleanFacet', 'BaseFacetSet')
 
 
 class Facet(object):

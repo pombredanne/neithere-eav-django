@@ -1,9 +1,6 @@
 API Reference
 ~~~~~~~~~~~~~
 
-eav/admin.py  eav/facets.py  eav/fields.py  eav/forms.py  eav/__init__.py
-eav/managers.py  eav/models.py  eav/tests.py  eav/widgets.py
-
 .. automodule:: eav
    :members:
 

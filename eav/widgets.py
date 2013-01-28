@@ -17,6 +17,10 @@
 #
 #    You should have received a copy of the GNU Lesser General Public License
 #    along with EAV-Django.  If not, see <http://gnu.org/licenses/>.
+"""
+Widgets
+~~~~~~~
+"""
 
 from django import forms
 from django.utils.translation import ugettext_lazy as _
