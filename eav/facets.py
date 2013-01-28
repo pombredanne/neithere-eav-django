@@ -47,6 +47,9 @@ __all__ = ('Facet', 'TextFacet', 'MultiTextFacet', 'ManyToManyFacet',
 
 
 class Facet(object):
+    """ Base class for facets.  Concrete facets must overload at least the
+    `field_class` attribute.
+    """
     def __init__(self, facet_set, schema=None, field=None, lookup_prefix=''):
         self.facet_set = facet_set
         assert schema or field, 'Facet must be created with schema or field'
@@ -138,9 +141,7 @@ class TextFacet(Facet):
 
 
 class MultiTextFacet(TextFacet):
-    """
-    Represents a text field or schema. Allows multiple choices.
-    """
+    "Represents a text field or schema. Allows multiple choices."
     field_class = forms.MultipleChoiceField
     widget = forms.CheckboxSelectMultiple
 
@@ -154,6 +155,7 @@ class MultiTextFacet(TextFacet):
 
 
 class ManyToManyFacet(Facet):
+    "Represents a many-to-many field."
     field_class = forms.models.ModelMultipleChoiceField
 
     def _get_queryset(self):
@@ -173,6 +175,7 @@ class ManyToManyFacet(Facet):
         return {'%s__in' % self.lookup_name: value} if value else {}
 
 class OneToManyFacet(Facet):
+    "Represents a one-to-many field."
     field_class = forms.models.ModelChoiceField
 
     def _get_queryset(self):
@@ -192,13 +195,12 @@ class OneToManyFacet(Facet):
 
 
 class IntegerFacet(Facet):
+    "Represents an integer field."
     field_class = forms.IntegerField
 
 
 class RangeFacet(Facet):
-    """
-    A simple range facet: two widgets, one attribute value (number).
-    """
+    "A simple range facet: two widgets, one attribute value (number)."
     field_class = RangeField
 
     def get_lookups(self, value):
@@ -213,9 +215,7 @@ class RangeFacet(Facet):
 
 
 class MultiRangeFacet(Facet):
-    """
-    A complex range facet: two widgets, two attribute values (numbers).
-    """
+    "A complex range facet: two widgets, two attribute values (numbers)."
     field_class = RangeField
 
     def get_lookups(self, value):
@@ -224,10 +224,12 @@ class MultiRangeFacet(Facet):
 
 
 class DateFacet(Facet):
+    "Represents a date field."
     field_class = forms.DateField
 
 
 class BooleanFacet(Facet):
+    "Represents a boolean field."
     field_class = forms.NullBooleanField
 
     # XXX this is funny but using RadioSelect for booleans is non-trivial
@@ -253,6 +255,9 @@ FACET_FOR_FIELD_DEFAULTS = {
 
 
 class BaseFacetSet(object):
+    """ Base class for facet sets.  Concrete classes must overload at least
+    the `get_queryset` attribute.
+    """
     filterable_fields = []
     sortable_fields = []
     custom_facets = {}

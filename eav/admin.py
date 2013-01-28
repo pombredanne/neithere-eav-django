@@ -37,6 +37,8 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class BaseEntityAdmin(ModelAdmin):
+    """ Base class for entity admin classes.
+    """
     eav_fieldsets = None
 
     def render_change_form(self, request, context, **kwargs):
@@ -74,7 +76,8 @@ class BaseEntityAdmin(ModelAdmin):
 
 
 class BaseSchemaAdmin(ModelAdmin):
-
+    """ Base class for schema admin classes.
+    """
     list_display = ('title', 'name', 'datatype', 'help_text', 'required')
     prepopulated_fields = {'name': ('title',)}
 

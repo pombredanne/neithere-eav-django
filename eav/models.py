@@ -303,6 +303,9 @@ class BaseEntity(Model):
 
 
 class BaseChoice(Model):
+    """ Base class for choices.  Concrete choice class must overload the
+    `schema` attribute.
+    """
     title = CharField(max_length=100)
     schema = NotImplemented
 
@@ -315,6 +318,9 @@ class BaseChoice(Model):
 
 
 class BaseAttribute(Model):
+    """ Base class for choices.  Concrete choice class must overload the
+    `schema` and `choice` attributes.
+    """
     entity_type = ForeignKey(ContentType)
     entity_id = IntegerField()
     entity = generic.GenericForeignKey(ct_field="entity_type", fk_field='entity_id')

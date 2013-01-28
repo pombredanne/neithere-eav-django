@@ -27,6 +27,8 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class RangeWidget(forms.MultiWidget):
+    "Represents a range of numbers."
+
     def __init__(self, attrs=None):
         widgets = (forms.TextInput(attrs=attrs), forms.TextInput(attrs=attrs))
         attrs = attrs or {}

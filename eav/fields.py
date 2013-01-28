@@ -33,6 +33,7 @@ __all__ = ['RangeField']
 
 
 class RangeField(forms.MultiValueField):
+    "A multi-value field which consists of tho float fields."
     widget = RangeWidget
 
     def __init__(self, *args, **kwargs):

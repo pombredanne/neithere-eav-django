@@ -40,6 +40,8 @@ __all__ = ['BaseSchemaForm', 'BaseDynamicEntityForm']
 
 
 class BaseSchemaForm(ModelForm):
+    """ Base class for schema forms.
+    """
 
     def clean_name(self):
         "Avoid name clashes between static and dynamic attributes."
