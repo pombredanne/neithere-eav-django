@@ -59,7 +59,9 @@ Examples
 Let's define an EAV-friendly model, create an EAV attribute and see how it
 behaves. By "EAV attributes" I mean those stored in the database as separate
 objects but accessed and searched in such a way as if they were columns in the
-entity's table::
+entity's table:
+
+.. code-block:: python
 
     from django.db import models
     from eav.models import BaseEntity, BaseSchema, BaseAttribute
@@ -165,13 +167,17 @@ Choice model will also have to point at Schema. Check the tests for an example.
 Documentation
 -------------
 
-Sorry, no documentation yet. I'll work on it when I get a round tuit. :-)
+Currently there is no tutorial.  Still, the code itself is rather
+well-documented and the whole logic is pretty straightforward. 
 
-For now please see:
+Please see:
 
-* tests, as they contain good examples of model definitions and queries;
+* tests_, as they contain good examples of model definitions and queries;
 * the bundled example ("grocery shop", comes with fixtures);
-* the `discussion group <http://groups.google.com/group/eav-django/>`_.
+* the `discussion group`_.
+
+.. _discussion group: https://groups.google.com/forum/#!forum/eav-django
+.. _tests: https://eav-django.readthedocs.org/en/latest/reference.html#tests
 
 Dependencies
 ------------

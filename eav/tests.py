@@ -19,6 +19,8 @@
 #    along with EAV-Django.  If not, see <http://gnu.org/licenses/>.
 
 """
+Tests
+~~~~~
 
 ##
 ## basic EAV
@@ -218,6 +220,7 @@ TypeError: Cannot assign "[\'wrong choice\']": "Attr.choice" must be a BaseChoic
 # exclude() fetches objects that either have given attribute(s) with other values
 # or don't have any attributes for this schema at all:
 #
+
 >>> Entity.objects.exclude(size=small)
 [<Entity: Apple>, <Entity: Cane>, <Entity: Orange>, <Entity: Old Dog>]
 >>> Entity.objects.exclude(taste='sweet')
@@ -232,6 +235,7 @@ TypeError: Cannot assign "[\'wrong choice\']": "Attr.choice" must be a BaseChoic
 ##
 
 # make some schemata available for filtering entities by them
+
 >>> Schema.objects.filter(name__in=['colour', 'size', 'taste']).update(filtered=True)
 3
 >>> fs = FacetSet({})
@@ -251,6 +255,9 @@ TypeError: Cannot assign "[\'wrong choice\']": "Attr.choice" must be a BaseChoic
 [<Entity: Orange>, <Entity: Tangerine>]
 >>> [x for x in FacetSet({'size': [large.pk]})]
 [<Entity: T-shirt>, <Entity: Old Dog>]
+
+Entities used in the tests
+--------------------------
 """
 
 # TODO: if schema changes type, drop all attribs?

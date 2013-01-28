@@ -1,0 +1,4 @@
+django >= 1.1
+django_autoslug >= 1.3.9
+django_view_shortcuts >= 1.3.5
+unittest2

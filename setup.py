@@ -23,6 +23,8 @@
 import os
 from setuptools import setup
 
+import eav
+
 
 readme = open(os.path.join(os.path.dirname(__file__), 'README')).read()
 
@@ -34,7 +36,7 @@ setup(
     long_description = readme,
 
     # technical info
-    version  = '1.4.4',
+    version  = eav.__version__,
     packages = ['eav'],
     requires = ['python (>= 2.5)', 'django (>= 1.1)',
                 'django_autoslug (>= 1.3.9)',
