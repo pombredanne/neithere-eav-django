@@ -1,15 +1,3 @@
-- fields: {app_label: grocery, model: fruit, name: fruit}
-  model: contenttypes.contenttype
-  pk: 9                                                                                
-- fields: {app_label: grocery, model: schema, name: schema}
-  model: contenttypes.contenttype
-  pk: 10
-- fields: {app_label: grocery, model: choice, name: choice}
-  model: contenttypes.contenttype
-  pk: 11 
-- fields: {app_label: grocery, model: attribute, name: attribute}
-  model: contenttypes.contenttype
-  pk: 12
 - fields: {datatype: float, filtered: true, help_text: '', name: price, required: false,
     searched: false, sortable: true, title: Price}
   model: grocery.schema
