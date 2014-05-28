@@ -5,8 +5,8 @@ from django.db import models
 from eav.models import BaseChoice, BaseEntity, BaseSchema, BaseAttribute
 
 class Attribute(BaseAttribute):
-    schema = models.ForeignKey(Schema, related_name='attrs')
-    choice = models.ForeignKey(Choice, blank=True, null=True)
+    schema = models.ForeignKey("Schema", related_name='attrs')
+    choice = models.ForeignKey("Choice", blank=True, null=True)
     
 class Fruit(BaseEntity):
     title = models.CharField(max_length=50)
