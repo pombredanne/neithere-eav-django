@@ -1,5 +1,6 @@
 # django
 from django.db import models
+from django.contrib.contenttypes import generic
 
 # eav
 from eav.models import BaseChoice, BaseEntity, BaseSchema, BaseAttribute
