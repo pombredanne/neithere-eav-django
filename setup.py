@@ -42,6 +42,7 @@ setup(
                 'django_autoslug (>= 1.3.9)',
                 'django_view_shortcuts (>= 1.3.5)'],
     provides = ['eav'],
+    package_data = {'eav': ['locale/*/*/*', 'templates/*/*/*']},
 
     # copyright
     author       = 'Andrey Mikhaylenko',
