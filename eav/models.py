@@ -80,10 +80,10 @@ class BaseSchema(Model):
                           help_text=_('short description for administrator'))
     datatype = CharField(_('data type'), max_length=5, choices=DATATYPE_CHOICES)
 
-    required = BooleanField(_('required'))
-    searched = BooleanField(_('include in search'))  # i.e. full-text search? mb for text only
-    filtered = BooleanField(_('include in filters'))
-    sortable = BooleanField(_('allow sorting'))
+    required = BooleanField(_('required'), default=False)
+    searched = BooleanField(_('include in search'), default=False)  # i.e. full-text search? mb for text only
+    filtered = BooleanField(_('include in filters'), default=False)
+    sortable = BooleanField(_('allow sorting'), default=False)
 
     class Meta:
         abstract = True
